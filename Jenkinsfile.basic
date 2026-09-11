@@ -30,3 +30,50 @@ pipeline {
         }
     }
 }
+#===============
+#============
+pipeline {
+	agent any 
+
+	stages {
+			stage (‘checkout’) {
+
+				steps{
+
+					git ‘git url’
+				}
+			}
+			stage (‘build’) {
+
+				steps{
+
+					sh ‘mvn clean package’
+				}
+			}
+			stage (‘security scan’) {
+
+				steps {
+
+					sh ‘sonar - scanner’
+				}
+			}
+			stage (‘test’) {
+
+				step {
+
+					sh ‘mvn test’
+				}
+			}
+			stage (‘deployment’) {
+
+				step {
+
+					sh ‘kubectl apply -f deployment.yaml’
+				}
+			}
+			
+	}
+
+}	
+
+# Pipeline → agent → stages → stage → steps → command 
