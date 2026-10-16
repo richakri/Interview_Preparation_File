@@ -18,6 +18,19 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8070 # The port that the container is running on in the cluster
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8070
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8070
+          resources:
+            requests:
+              memory: "256Mi"
+            limits:
+              memory: "512Mi"  
 
 
 ---
